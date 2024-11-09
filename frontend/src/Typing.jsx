@@ -4,12 +4,15 @@ const Typing = ({ sentenceData }) => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
+  const [isMatch, setIsMatch] = useState(true);
 
   function handlePlayStart() {
+    setIsMatch(true);
     if (!isPlay) setIsPlay(true);
   }
 
   function handleNextClick() {
+    setIsMatch(true);
     if (!isPlay) setIsPlay(true);
     // countの上限制御
     if (sentenceData.length - 1 > count) {
@@ -30,8 +33,21 @@ const Typing = ({ sentenceData }) => {
     setPressedKeys(newPressedKeys);
   }
 
+  function checkSentence() {
+    const joinPressedKeys = pressedKeys.join('');
+    const expectedSentence = sentenceData[count].sentence;
+    const result = expectedSentence.startsWith(joinPressedKeys);
+    setIsMatch(result);
+  }
+
   return (
-    <div onKeyDown={(e) => handleKeyDown(e)} tabIndex="0">
+    <div
+      onKeyDown={(e) => {
+        handleKeyDown(e);
+        checkSentence();
+      }}
+      tabIndex="0"
+    >
       <div>Typing display!</div>
       <p>{sentenceData[count].sentence}</p>
       <p>{pressedKeys.join('')}</p>
