@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-const Home = () => {
-  const [userData, setUserData] = useState('');
+const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
 
   async function handleFetch() {
@@ -15,7 +14,6 @@ const Home = () => {
       <input onChange={(e) => setInputName(e.target.value)} value={inputName} />
       <br />
       <button onClick={handleFetch}>fetch</button>
-      <p>{userData.name}</p>
     </>
   );
 };
