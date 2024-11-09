@@ -14,9 +14,8 @@ function setupServer() {
   );
 
   app.use(express.json());
-  console.log('response!');
 
-  app.get('/api/users/:id', userController.index);
+  app.get('/api/users/:name', userController.index);
   app.get('/api/users', userController.view);
 
   return app;

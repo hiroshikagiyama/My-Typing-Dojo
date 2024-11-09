@@ -2,8 +2,8 @@ const userModel = require('./user.model');
 
 module.exports = {
   async index(req, res) {
-    const userId = Number(req.params.id);
-    const user = await userModel.find(userId);
+    const userName = req.params.name;
+    const user = await userModel.find(userName);
 
     res.send({ data: user });
   },

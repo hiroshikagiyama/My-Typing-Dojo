@@ -9,8 +9,8 @@ module.exports = {
     return await db(USER_LIST_TABLE);
   },
 
-  async find(id) {
-    const [foundUser] = await db(USER_LIST_TABLE).where({ id });
+  async find(name) {
+    const [foundUser] = await db(USER_LIST_TABLE).where({ name });
     return foundUser || {};
   },
 };
