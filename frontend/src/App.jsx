@@ -5,7 +5,7 @@ import Typing from './Typing.jsx';
 
 function App() {
   const [userData, setUserData] = useState('');
-  return <>{userData ? <Typing /> : <Home setUserData={setUserData} />}</>;
+  return <>{userData.name ? <Typing /> : <Home setUserData={setUserData} />}</>;
 }
 
 export default App;
