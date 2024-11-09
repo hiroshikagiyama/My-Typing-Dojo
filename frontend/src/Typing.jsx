@@ -4,7 +4,6 @@ const Typing = ({ sentenceData }) => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
-  const [isShiftPressed, setIsShiftPressed] = useState(false);
 
   function handlePlayStart() {
     if (!isPlay) setIsPlay(true);
@@ -28,7 +27,6 @@ const Typing = ({ sentenceData }) => {
       const pressedKey = e.key === 'Shift' ? '' : e.key;
       newPressedKeys = [...pressedKeys, pressedKey];
     }
-    const joinNewPressKeys = newPressedKeys.join('');
     setPressedKeys(newPressedKeys);
   }
 
