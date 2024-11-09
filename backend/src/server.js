@@ -1,4 +1,5 @@
 const userController = require('./user/user.controller');
+const sentenceController = require('./sentence/sentence.controller');
 const cors = require('cors');
 const express = require('express');
 
@@ -16,7 +17,10 @@ function setupServer() {
   app.use(express.json());
 
   app.get('/api/users/:name', userController.index);
-  app.get('/api/users', userController.view);
+  app.get('/api/users', userController.index);
+
+  app.get('/api/sentence/:tag', sentenceController.tag);
+  app.get('/api/sentence', sentenceController.view);
 
   return app;
 }
