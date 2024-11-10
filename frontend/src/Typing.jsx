@@ -5,6 +5,8 @@ const Typing = ({ sentenceData }) => {
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
+  const [typingTime, setTypingTime] = useState({ start: '', end: '' });
+  console.log('typingTime: ', typingTime);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startBtnFocus = useRef(null);
@@ -38,7 +40,6 @@ const Typing = ({ sentenceData }) => {
     } else {
       newPressedKeys = [...pressedKeys, e.key];
     }
-    console.log('newPressedKeys: ----->> ', newPressedKeys);
     if (newPressedKeys) {
       setPressedKeys(newPressedKeys);
       checkSentence(newPressedKeys);
@@ -67,7 +68,7 @@ const Typing = ({ sentenceData }) => {
   console.log('===================================================');
 
   return (
-    <div onKeyDown={(e) => handleKeyDown(e)} tabIndex="0">
+    <div onKeyDown={handleKeyDown} tabIndex="0">
       <div
         style={{
           display: 'flex',
