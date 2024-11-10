@@ -17,12 +17,16 @@ const Typing = ({ sentenceData }) => {
   function handlePlayStart() {
     setIsMatchArray([]);
     setPressedKeys([]);
+    setStartTime(null);
+    setWpm(0);
     if (!isPlay) setIsPlay(true);
   }
 
   function handleNextClick() {
     setIsMatchArray([]);
     setPressedKeys([]);
+    setStartTime(null);
+    setWpm(0);
     if (!isPlay) setIsPlay(true);
     // countの上限制御
     if (sentenceData.length - 1 > count) {
@@ -93,7 +97,7 @@ const Typing = ({ sentenceData }) => {
 
   return (
     <div onKeyDown={handleKeyDown} tabIndex="0">
-      {wpm && <p>{wpm} wpm</p>}
+      {wpm > 0 && <p>{wpm} wpm</p>}
       <div
         style={{
           display: 'flex',
