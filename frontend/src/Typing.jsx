@@ -93,6 +93,7 @@ const Typing = ({ sentenceData }) => {
 
   return (
     <div onKeyDown={handleKeyDown} tabIndex="0">
+      {wpm && <p>{wpm} wpm</p>}
       <div
         style={{
           display: 'flex',
