@@ -8,10 +8,20 @@ const Home = ({ setUserData }) => {
     response = await response.json();
     setUserData(response.data);
   }
+  // 入力エリアでenter key を押してもボタンを押したようにするため
+  function handleEnterKeyDown(e) {
+    if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
+    handleFetch(); // 警告は出るがそのままで良い
+  }
+
   return (
     <>
       <h1>My Typing Dojo</h1>
-      <input onChange={(e) => setInputName(e.target.value)} value={inputName} />
+      <input
+        onKeyDown={handleEnterKeyDown}
+        onChange={(e) => setInputName(e.target.value)}
+        value={inputName}
+      />
       <br />
       <button onClick={handleFetch}>fetch</button>
     </>
