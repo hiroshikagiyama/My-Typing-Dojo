@@ -4,7 +4,7 @@ exports.up = async (knex) => {
     table.string('sentence').notNullable();
     table.string('tag').notNullable();
     table.integer('add_user_id').notNullable();
-    table.foreign('add_user_id').references('user_list.id');
+    table.foreign('add_user_id').references('user_list.id').onDelete('CASCADE');
   });
 };
 

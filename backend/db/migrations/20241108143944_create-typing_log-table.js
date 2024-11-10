@@ -5,8 +5,11 @@ exports.up = async (knex) => {
     table.integer('user_id').notNullable();
     table.integer('wpm').notNullable();
     table.date('date').notNullable();
-    table.foreign('sentence_id').references('sentence_list.id');
-    table.foreign('user_id').references('user_list.id');
+    table
+      .foreign('sentence_id')
+      .references('sentence_list.id')
+      .onDelete('CASCADE');
+    table.foreign('user_id').references('user_list.id').onDelete('CASCADE');
   });
 };
 
