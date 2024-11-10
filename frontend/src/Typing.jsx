@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Typing = ({ sentenceData }) => {
   const [count, setCount] = useState(0);
@@ -21,15 +21,16 @@ const Typing = ({ sentenceData }) => {
   }
 
   function handleKeyDown(e) {
+    e.preventDefault(); // space keyはこれがないと再レンダリングされて、背景色が消える
+    console.log('e.key: ', e.key);
+    if (e.key === 'Shift') return;
     let newPressedKeys;
     if (e.key === 'Backspace') {
       const tempPressedKeys = [...pressedKeys];
       tempPressedKeys.pop();
       newPressedKeys = [...tempPressedKeys];
     } else {
-      if (e.key !== 'Shift') {
-        newPressedKeys = [...pressedKeys, e.key];
-      }
+      newPressedKeys = [...pressedKeys, e.key];
     }
     console.log('newPressedKeys: ----->> ', newPressedKeys);
     if (newPressedKeys) {
@@ -46,10 +47,21 @@ const Typing = ({ sentenceData }) => {
     setIsMatchArray(isMatchResults);
   }
 
+  function createBackgroundColor(i) {
+    let madeBackgroundColor;
+    if (isMatchArray[i] === undefined) {
+      madeBackgroundColor = '';
+    } else if (isMatchArray[i]) {
+      madeBackgroundColor = 'lightgreen';
+    } else {
+      madeBackgroundColor = 'lightgray';
+    }
+    return madeBackgroundColor;
+  }
+  console.log('===================================================');
+
   return (
     <div onKeyDown={(e) => handleKeyDown(e)} tabIndex="0">
-      <div>Typing display!</div>
-      <p>{sentenceData[count].sentence}</p>
       <div
         style={{
           display: 'flex',
@@ -62,7 +74,7 @@ const Typing = ({ sentenceData }) => {
             key={i}
             style={{
               marginLeft: '1px',
-              backgroundColor: pressedKeys.length > i && 'lightgray',
+              backgroundColor: createBackgroundColor(i),
               color: splitChar === ' ' && 'lightgray',
               width: '15px',
               borderRadius: '2px',
@@ -72,7 +84,6 @@ const Typing = ({ sentenceData }) => {
           </div>
         ))}
       </div>
-      <p>{pressedKeys.join('')}</p>
       <button onClick={handlePlayStart}>start</button>
       <button onClick={handleNextClick}>next</button>
     </div>
