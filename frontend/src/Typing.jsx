@@ -7,7 +7,7 @@ const Typing = ({ sentenceData }) => {
   const [isMatchArray, setIsMatchArray] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [typingTime, setTypingTime] = useState(0);
-  // const typingPlayTime = { start: '', end: '' };
+  const [wpm, setWpm] = useState(0);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startBtnFocus = useRef(null);
@@ -62,9 +62,16 @@ const Typing = ({ sentenceData }) => {
   }
 
   function calcTypingTime() {
-    setTypingTime((Date.now() - startTime) / 1000);
+    const typingSeconds = (Date.now() - startTime) / 1000;
+    setTypingTime(typingSeconds);
+    // WPMの計算方法：(文字数/5)*(60秒/入力にかかった秒数) 英単語の場合5文字で1単語として計算する
+    setWpm(
+      Math.round(
+        (sentenceData[count].sentence.length / 5) * (60 / typingSeconds)
+      )
+    );
   }
-  console.log('typingTime: ', typingTime);
+  console.log('wpm: ', wpm);
 
   function checkSentence(newPressedKeys) {
     const splitExpectedSentence = sentenceData[count].sentence.split('');
