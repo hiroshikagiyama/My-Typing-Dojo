@@ -4,15 +4,15 @@ const Typing = ({ sentenceData }) => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
-  const [isMatch, setIsMatch] = useState(true);
+  const [isMatchArray, setIsMatchArray] = useState([]);
 
   function handlePlayStart() {
-    setIsMatch(true);
+    setIsMatchArray([]);
     if (!isPlay) setIsPlay(true);
   }
 
   function handleNextClick() {
-    setIsMatch(true);
+    setIsMatchArray([]);
     if (!isPlay) setIsPlay(true);
     // countの上限制御
     if (sentenceData.length - 1 > count) {
@@ -27,29 +27,51 @@ const Typing = ({ sentenceData }) => {
       tempPressedKeys.pop();
       newPressedKeys = [...tempPressedKeys];
     } else {
-      const pressedKey = e.key === 'Shift' ? '' : e.key;
-      newPressedKeys = [...pressedKeys, pressedKey];
+      if (e.key !== 'Shift') {
+        newPressedKeys = [...pressedKeys, e.key];
+      }
     }
-    setPressedKeys(newPressedKeys);
+    console.log('newPressedKeys: ----->> ', newPressedKeys);
+    if (newPressedKeys) {
+      setPressedKeys(newPressedKeys);
+      checkSentence(newPressedKeys);
+    }
   }
 
-  function checkSentence() {
-    const joinPressedKeys = pressedKeys.join('');
-    const expectedSentence = sentenceData[count].sentence;
-    const result = expectedSentence.startsWith(joinPressedKeys);
-    setIsMatch(result);
+  function checkSentence(newPressedKeys) {
+    const splitExpectedSentence = sentenceData[count].sentence.split('');
+    const isMatchResults = newPressedKeys.map(
+      (newPressedKey, i) => newPressedKey === splitExpectedSentence[i]
+    );
+    setIsMatchArray(isMatchResults);
   }
 
   return (
-    <div
-      onKeyDown={(e) => {
-        handleKeyDown(e);
-        checkSentence();
-      }}
-      tabIndex="0"
-    >
+    <div onKeyDown={(e) => handleKeyDown(e)} tabIndex="0">
       <div>Typing display!</div>
       <p>{sentenceData[count].sentence}</p>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {sentenceData[count].sentence.split('').map((splitChar, i) => (
+          <div
+            key={i}
+            style={{
+              marginLeft: '1px',
+              backgroundColor: pressedKeys.length > i && 'lightgray',
+              color: splitChar === ' ' && 'lightgray',
+              width: '15px',
+              borderRadius: '2px',
+            }}
+          >
+            {splitChar === ' ' ? '_' : splitChar}
+          </div>
+        ))}
+      </div>
       <p>{pressedKeys.join('')}</p>
       <button onClick={handlePlayStart}>start</button>
       <button onClick={handleNextClick}>next</button>
