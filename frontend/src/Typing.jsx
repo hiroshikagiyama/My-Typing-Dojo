@@ -5,8 +5,6 @@ const Typing = ({ sentenceData }) => {
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
-  const [typingTime, setTypingTime] = useState({ start: '', end: '' });
-  console.log('typingTime: ', typingTime);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startBtnFocus = useRef(null);
@@ -16,11 +14,13 @@ const Typing = ({ sentenceData }) => {
 
   function handlePlayStart() {
     setIsMatchArray([]);
+    setPressedKeys([]);
     if (!isPlay) setIsPlay(true);
   }
 
   function handleNextClick() {
     setIsMatchArray([]);
+    setPressedKeys([]);
     if (!isPlay) setIsPlay(true);
     // countの上限制御
     if (sentenceData.length - 1 > count) {
@@ -82,7 +82,7 @@ const Typing = ({ sentenceData }) => {
             style={{
               marginLeft: '1px',
               backgroundColor: createBackgroundColor(i),
-              color: splitChar === ' ' && 'lightgray',
+              color: splitChar === ' ' && 'white',
               width: '15px',
               borderRadius: '2px',
             }}
