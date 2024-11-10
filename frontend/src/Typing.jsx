@@ -6,7 +6,6 @@ const Typing = ({ sentenceData }) => {
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
   const [startTime, setStartTime] = useState(null);
-  const [typingTime, setTypingTime] = useState(0);
   const [wpm, setWpm] = useState(0);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
@@ -63,7 +62,6 @@ const Typing = ({ sentenceData }) => {
 
   function calcTypingTime() {
     const typingSeconds = (Date.now() - startTime) / 1000;
-    setTypingTime(typingSeconds);
     // WPMの計算方法：(文字数/5)*(60秒/入力にかかった秒数) 英単語の場合5文字で1単語として計算する
     setWpm(
       Math.round(
