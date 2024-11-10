@@ -5,6 +5,9 @@ const Typing = ({ sentenceData }) => {
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
+  const [startTime, setStartTime] = useState(null);
+  const [typingTime, setTypingTime] = useState(0);
+  // const typingPlayTime = { start: '', end: '' };
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startBtnFocus = useRef(null);
@@ -30,7 +33,6 @@ const Typing = ({ sentenceData }) => {
 
   function handleKeyDown(e) {
     e.preventDefault(); // space key は、再レンダリングされ背景色が消える
-    console.log('e.key: ', e.key);
     if (e.key === 'Shift') return;
     let newPressedKeys;
     if (e.key === 'Backspace') {
@@ -44,7 +46,25 @@ const Typing = ({ sentenceData }) => {
       setPressedKeys(newPressedKeys);
       checkSentence(newPressedKeys);
     }
+    setPlayTime(newPressedKeys);
   }
+
+  function setPlayTime(newPressedKeys) {
+    const isStart = pressedKeys.length === 0 && newPressedKeys.length === 1;
+    const isEnd =
+      newPressedKeys.length === sentenceData[count].sentence.length &&
+      isMatchArray.every((value) => value === true);
+    if (isStart) {
+      setStartTime(Date.now());
+    } else if (startTime && isEnd) {
+      calcTypingTime();
+    }
+  }
+
+  function calcTypingTime() {
+    setTypingTime((Date.now() - startTime) / 1000);
+  }
+  console.log('typingTime: ', typingTime);
 
   function checkSentence(newPressedKeys) {
     const splitExpectedSentence = sentenceData[count].sentence.split('');
@@ -65,7 +85,6 @@ const Typing = ({ sentenceData }) => {
     }
     return madeBackgroundColor;
   }
-  console.log('===================================================');
 
   return (
     <div onKeyDown={handleKeyDown} tabIndex="0">
