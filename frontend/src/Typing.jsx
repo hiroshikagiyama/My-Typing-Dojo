@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const Typing = ({ sentenceData }) => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
+
+  // タイピング画面へ移動時にスタートボタンにフォーカスさせる
+  const startBtnFocus = useRef(null);
+  useEffect(() => {
+    startBtnFocus.current.focus();
+  }, []);
 
   function handlePlayStart() {
     setIsMatchArray([]);
@@ -21,7 +27,7 @@ const Typing = ({ sentenceData }) => {
   }
 
   function handleKeyDown(e) {
-    e.preventDefault(); // space keyはこれがないと再レンダリングされて、背景色が消える
+    e.preventDefault(); // space key は、再レンダリングされ背景色が消える
     console.log('e.key: ', e.key);
     if (e.key === 'Shift') return;
     let newPressedKeys;
@@ -84,7 +90,9 @@ const Typing = ({ sentenceData }) => {
           </div>
         ))}
       </div>
-      <button onClick={handlePlayStart}>start</button>
+      <button ref={startBtnFocus} onClick={handlePlayStart}>
+        start
+      </button>
       <button onClick={handleNextClick}>next</button>
     </div>
   );
