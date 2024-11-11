@@ -4,7 +4,7 @@
     "migrate-down": "npx knex migrate:down --knexfile backend/knexfile.js",
     "seed-data": "npx knex seed:run --knexfile backend/knexfile.js",
   "build": "npm install",
-  "start": "node ./src/index.js"
+  "start": "node backend/src/index.js"
 },
   "author": "",
   "license": "ISC",
