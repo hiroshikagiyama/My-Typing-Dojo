@@ -6,6 +6,7 @@ const express = require('express');
 
 function setupServer() {
   const app = express();
+  app.use('/', express.static('../../frontend/dist'));
   // cors許可の設定 参考：https://zenn.dev/luvmini511/articles/d8b2322e95ff40
   app.use(
     cors({
