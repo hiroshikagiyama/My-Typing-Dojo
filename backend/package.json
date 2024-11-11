@@ -4,6 +4,9 @@
   "scripts": {
     "dev": "nodemon ./src/index.js",
 
+    "build": "npm install",
+    "start": "node ./src/index.js",
+
     "test": "mocha --require test/setup.js",
     "test:watch": "mocha --watch",
     "lint": "eslint --fix --ext .js .",
