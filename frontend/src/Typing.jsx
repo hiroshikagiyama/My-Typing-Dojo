@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { TypingButton } from './TypingButton.jsx';
-import { SentenceBox } from './SentenceBox.jsx';
+import { Box, Flex } from '@chakra-ui/react';
+import { TypingButton } from './components/TypingButton.jsx';
+import { SentenceBox } from './components/SentenceBox.jsx';
+import { LargeText } from './components/LargeText.jsx';
+import { MiddleText } from './components/MiddleText.jsx';
 
 const Typing = ({ sentenceData, userData }) => {
   const [count, setCount] = useState(0);
@@ -95,7 +97,6 @@ const Typing = ({ sentenceData, userData }) => {
       wpm: wpm,
       date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };
-    console.log(wpmData);
     const res = await fetch('http://localhost:3000/api/record', {
       method: 'POST',
       headers: {
@@ -123,17 +124,11 @@ const Typing = ({ sentenceData, userData }) => {
       ref={startFocus}
     >
       {wpm > 0 ? (
-        <Text textStyle="4xl" fontWeight="medium" mb="5">
-          {wpm} wpm
-        </Text>
+        <LargeText>{wpm} wpm</LargeText>
       ) : (
-        <Text textStyle="4xl" fontWeight="medium" mb="5" color="#242424">
-          #
-        </Text>
+        <LargeText color={'#242424'}>#</LargeText>
       )}
-      <Text textStyle="2xl" fontWeight="medium" mb="5">
-        {sentenceData[count].tag}
-      </Text>
+      <MiddleText>{sentenceData[count].tag}</MiddleText>
       <Flex flexWrap="wrap" gap="1" width="800px">
         {sentenceData[count].sentence.split('').map((splitChar, i) => (
           <SentenceBox

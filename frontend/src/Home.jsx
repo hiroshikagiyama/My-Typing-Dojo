@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Input } from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react';
 import { Text } from '@chakra-ui/react';
-import { HomeButton } from './HomeButton.jsx';
+import { HomeButton } from './components/HomeButton.jsx';
 
 const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
