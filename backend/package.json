@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/index.js",
+
     "test": "mocha --require test/setup.js",
     "test:watch": "mocha --watch",
     "lint": "eslint --fix --ext .js .",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.2",
     "chai": "^4.3.6",
+    "chai-http": "^4.4.0",
     "chai-as-promised": "^7.1.2",
     "eslint": "^7.32.0",
     "mocha": "^10.7.3",

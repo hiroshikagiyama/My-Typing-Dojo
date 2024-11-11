@@ -1,5 +1,6 @@
 const userController = require('./user/user.controller');
 const sentenceController = require('./sentence/sentence.controller');
+const typingLogController = require('./typingLog/typingLog.controller');
 const cors = require('cors');
 const express = require('express');
 
@@ -16,8 +17,12 @@ function setupServer() {
 
   app.use(express.json());
 
+  app.post('/api/record', typingLogController.add);
+  app.get('/api/record/:id', typingLogController.index);
+  app.get('/api/record', typingLogController.view);
+
   app.get('/api/users/:name', userController.index);
-  app.get('/api/users', userController.index);
+  app.get('/api/users', userController.view);
 
   app.get('/api/sentence/:tag', sentenceController.tag);
   app.get('/api/sentence', sentenceController.view);
