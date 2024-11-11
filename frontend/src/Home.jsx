@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input } from '@chakra-ui/react';
 import { Text } from '@chakra-ui/react';
+import { HomeButton } from './HomeButton.jsx';
 
 const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
@@ -29,9 +30,7 @@ const Home = ({ setUserData }) => {
         value={inputName}
       />
       <br />
-      <Button mt="4" onClick={handleFetch}>
-        fetch
-      </Button>
+      <HomeButton handleFetch={handleFetch}>Login</HomeButton>
     </>
   );
 };

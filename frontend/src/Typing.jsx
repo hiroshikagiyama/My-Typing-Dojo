@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { TypingButton } from './TypingButton.jsx';
+import { SentenceBox } from './SentenceBox.jsx';
 
 const Typing = ({ sentenceData, userData }) => {
   const [count, setCount] = useState(0);
@@ -10,9 +12,9 @@ const Typing = ({ sentenceData, userData }) => {
   const [wpm, setWpm] = useState(0);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
-  const startBtnFocus = useRef(null);
+  const startFocus = useRef(null);
   useEffect(() => {
-    startBtnFocus.current.focus();
+    startFocus.current.focus();
   }, []);
 
   function resetState() {
@@ -113,20 +115,13 @@ const Typing = ({ sentenceData, userData }) => {
     setIsMatchArray(isMatchResults);
   }
 
-  function createBackgroundColor(i) {
-    let madeBackgroundColor;
-    if (isMatchArray[i] === undefined) {
-      madeBackgroundColor = '';
-    } else if (isMatchArray[i]) {
-      madeBackgroundColor = '#38B2AC';
-    } else {
-      madeBackgroundColor = '#718096';
-    }
-    return madeBackgroundColor;
-  }
-
   return (
-    <Box onKeyDown={handleKeyDown} tabIndex="0" _focus={{ outline: 'none' }}>
+    <Box
+      onKeyDown={handleKeyDown}
+      tabIndex="0"
+      _focus={{ outline: 'none' }}
+      ref={startFocus}
+    >
       {wpm > 0 ? (
         <Text textStyle="4xl" fontWeight="medium" mb="5">
           {wpm} wpm
@@ -141,56 +136,22 @@ const Typing = ({ sentenceData, userData }) => {
       </Text>
       <Flex flexWrap="wrap" gap="1" width="800px">
         {sentenceData[count].sentence.split('').map((splitChar, i) => (
-          <Box
-            fontSize="2xl"
-            height="40px"
-            fontWeight="medium"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            bg={createBackgroundColor(i)}
-            width="20px"
-            borderRadius="sm"
+          <SentenceBox
             key={i}
-            style={{
-              color: splitChar === ' ' && '#242424',
-            }}
+            splitChar={splitChar}
+            isMatchArray={isMatchArray}
+            index={i}
           >
             {splitChar === ' ' ? '_' : splitChar}
-          </Box>
+          </SentenceBox>
         ))}
       </Flex>
       {count > 0 && (
-        <Button
-          variant="subtle"
-          px="8"
-          mx="4"
-          mt="20"
-          onClick={handleBackClick}
-        >
-          back
-        </Button>
+        <TypingButton clickFunc={handleBackClick}>back</TypingButton>
       )}
-      <Button
-        variant="subtle"
-        px="8"
-        mx="4"
-        mt="20"
-        ref={startBtnFocus}
-        onClick={handlePlayStart}
-      >
-        start
-      </Button>
+      <TypingButton clickFunc={handlePlayStart}>start</TypingButton>
       {sentenceData.length - 1 > count && (
-        <Button
-          variant="subtle"
-          px="8"
-          mx="4"
-          mt="20"
-          onClick={handleNextClick}
-        >
-          next
-        </Button>
+        <TypingButton clickFunc={handleNextClick}>next</TypingButton>
       )}
     </Box>
   );
