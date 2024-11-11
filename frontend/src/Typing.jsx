@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Typing = ({ sentenceData }) => {
+const Typing = ({ sentenceData, userData }) => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
@@ -60,20 +60,39 @@ const Typing = ({ sentenceData }) => {
     if (isStart) {
       setStartTime(Date.now());
     } else if (startTime && isEnd) {
-      calcTypingTime();
+      const wpm = calcTypingTime();
+      addWpm(wpm);
     }
   }
 
   function calcTypingTime() {
     const typingSeconds = (Date.now() - startTime) / 1000;
     // WPMの計算方法：(文字数/5)*(60秒/入力にかかった秒数) 英単語の場合5文字で1単語として計算する
-    setWpm(
-      Math.round(
-        (sentenceData[count].sentence.length / 5) * (60 / typingSeconds)
-      )
+    const wpm = Math.round(
+      (sentenceData[count].sentence.length / 5) * (60 / typingSeconds)
     );
+    setWpm(wpm);
+    return wpm;
   }
-  console.log('wpm: ', wpm);
+
+  async function addWpm(wpm) {
+    const wpmData = {
+      sentenceId: sentenceData[count].id,
+      userId: userData.id,
+      wpm: wpm,
+      date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
+    };
+    console.log(wpmData);
+    const res = await fetch('http://localhost:3000/api/record', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: wpmData,
+      }),
+    });
+  }
 
   function checkSentence(newPressedKeys) {
     const splitExpectedSentence = sentenceData[count].sentence.split('');

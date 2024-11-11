@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       {userData.name ? (
-        <Typing sentenceData={sentenceData} />
+        <Typing sentenceData={sentenceData} userData={userData} />
       ) : (
         <Home setUserData={setUserData} />
       )}
