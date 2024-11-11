@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Button, Input } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
 const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
@@ -16,14 +18,20 @@ const Home = ({ setUserData }) => {
 
   return (
     <>
-      <h1>My Typing Dojo</h1>
-      <input
+      <Text textStyle="6xl">My Typing Dojo</Text>
+      <Input
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        mt="4"
         onKeyDown={handleEnterKeyDown}
         onChange={(e) => setInputName(e.target.value)}
         value={inputName}
       />
       <br />
-      <button onClick={handleFetch}>fetch</button>
+      <Button mt="4" onClick={handleFetch}>
+        fetch
+      </Button>
     </>
   );
 };

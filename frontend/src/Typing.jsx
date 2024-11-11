@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 const Typing = ({ sentenceData, userData }) => {
   const [count, setCount] = useState(0);
@@ -14,23 +15,33 @@ const Typing = ({ sentenceData, userData }) => {
     startBtnFocus.current.focus();
   }, []);
 
-  function handlePlayStart() {
+  function resetState() {
     setIsMatchArray([]);
     setPressedKeys([]);
     setStartTime(null);
     setWpm(0);
+  }
+
+  function handlePlayStart() {
+    resetState();
     if (!isPlay) setIsPlay(true);
   }
 
   function handleNextClick() {
-    setIsMatchArray([]);
-    setPressedKeys([]);
-    setStartTime(null);
-    setWpm(0);
+    resetState();
     if (!isPlay) setIsPlay(true);
     // countの上限制御
     if (sentenceData.length - 1 > count) {
       setCount((count) => count + 1);
+    }
+  }
+
+  function handleBackClick() {
+    resetState();
+    if (!isPlay) setIsPlay(true);
+    // countの下限制御
+    if (1 <= count) {
+      setCount((count) => count - 1);
     }
   }
 
@@ -107,43 +118,81 @@ const Typing = ({ sentenceData, userData }) => {
     if (isMatchArray[i] === undefined) {
       madeBackgroundColor = '';
     } else if (isMatchArray[i]) {
-      madeBackgroundColor = 'lightgreen';
+      madeBackgroundColor = '#38B2AC';
     } else {
-      madeBackgroundColor = 'lightgray';
+      madeBackgroundColor = '#718096';
     }
     return madeBackgroundColor;
   }
 
   return (
-    <div onKeyDown={handleKeyDown} tabIndex="0">
-      {wpm > 0 && <p>{wpm} wpm</p>}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+    <Box onKeyDown={handleKeyDown} tabIndex="0" _focus={{ outline: 'none' }}>
+      {wpm > 0 ? (
+        <Text textStyle="4xl" fontWeight="medium" mb="5">
+          {wpm} wpm
+        </Text>
+      ) : (
+        <Text textStyle="4xl" fontWeight="medium" mb="5" color="#242424">
+          #
+        </Text>
+      )}
+      <Text textStyle="2xl" fontWeight="medium" mb="5">
+        {sentenceData[count].tag}
+      </Text>
+      <Flex flexWrap="wrap" gap="1" width="800px">
         {sentenceData[count].sentence.split('').map((splitChar, i) => (
-          <div
+          <Box
+            fontSize="2xl"
+            height="40px"
+            fontWeight="medium"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            bg={createBackgroundColor(i)}
+            width="20px"
+            borderRadius="sm"
             key={i}
             style={{
-              marginLeft: '1px',
-              backgroundColor: createBackgroundColor(i),
-              color: splitChar === ' ' && 'white',
-              width: '15px',
-              borderRadius: '2px',
+              color: splitChar === ' ' && '#242424',
             }}
           >
             {splitChar === ' ' ? '_' : splitChar}
-          </div>
+          </Box>
         ))}
-      </div>
-      <button ref={startBtnFocus} onClick={handlePlayStart}>
+      </Flex>
+      {count > 0 && (
+        <Button
+          variant="subtle"
+          px="8"
+          mx="4"
+          mt="20"
+          onClick={handleBackClick}
+        >
+          back
+        </Button>
+      )}
+      <Button
+        variant="subtle"
+        px="8"
+        mx="4"
+        mt="20"
+        ref={startBtnFocus}
+        onClick={handlePlayStart}
+      >
         start
-      </button>
-      <button onClick={handleNextClick}>next</button>
-    </div>
+      </Button>
+      {sentenceData.length - 1 > count && (
+        <Button
+          variant="subtle"
+          px="8"
+          mx="4"
+          mt="20"
+          onClick={handleNextClick}
+        >
+          next
+        </Button>
+      )}
+    </Box>
   );
 };
 
