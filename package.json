@@ -1,8 +1,8 @@
 {
   "scripts" :{
-    "migrate-latest": "npx knex migrate:latest --knexfile ./backend/knexfile.js",
-    "migrate-down": "npx knex migrate:down --knexfile ./backend/knexfile.js",
-    "seed-data": "npx knex seed:run --knexfile ./backend/knexfile.js",
+    "migrate-latest": "npx knex migrate:latest --knexfile ./backend/src/knexfile.js",
+    "migrate-down": "npx knex migrate:down --knexfile ./backend/src/knexfile.js",
+    "seed-data": "npx knex seed:run --knexfile ./backend/src/knexfile.js",
   "build": "npm install",
   "start": "node ./src/index.js"
 },
