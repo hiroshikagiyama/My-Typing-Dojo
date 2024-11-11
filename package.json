@@ -1,14 +1,15 @@
 {
-  "scripts" :{
+  "scripts": {
     "migrate-latest": "npx knex migrate:latest --knexfile backend/knexfile.js",
     "migrate-down": "npx knex migrate:down --knexfile backend/knexfile.js",
     "seed-data": "npx knex seed:run --knexfile backend/knexfile.js",
-  "build": "npm install",
-  "start": "node backend/src/index.js"
-},
+    "build": "npm install",
+    "start": "node backend/src/index.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.17.3",
     "knex": "^2.0.0",
