@@ -1,8 +1,9 @@
 # My-typing-dojo
-タイピングと日々の学習を同時に行える。タイピングアプリです。
-Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onrender.com)から利用できます。
-```hoge```と入力して、```Login```ボタンを押して、プレイ開始です。ﬁ
-play demo
+タイピングと日々の学習を同時に行える。タイピングアプリです。  
+Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onrender.com)から利用できます。  
+```hoge```と入力して、```Login```ボタンを押して、プレイ開始です。  
+
+##play demo  
 https://github.com/hiroshikagiyama/my-typing-dojo/issues/1
 
 このアプリは以下技術を利用しています。
