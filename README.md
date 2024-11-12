@@ -3,11 +3,24 @@
 Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onrender.com)から利用できます。  
 ```hoge```と入力して、```Login```ボタンを押して、プレイ開始です。  
 
-##play demo  
+## play demo  
 ![gif](https://github.com/user-attachments/assets/3ae47424-79a4-42bf-a5ef-91edd5128865)
 
 このアプリは以下技術を利用しています。
-<img src="https://img.shields.io/badge/-Javascript-F7DF1E.svg?logo=javascript&style=plastic">
+<img src="https://img.shields.io/badge/-React-61DAFB.svg?logo=react&style=for-the-badge"> 
+<img src="https://img.shields.io/badge/-Javascript-F7DF1E.svg?logo=javascript&style=for-the-badge"> 
+<img src="https://img.shields.io/badge/-Postgresql-336791.svg?logo=postgresql&style=for-the-badge">  
+<img src="https://img.shields.io/badge/-Vite-003791.svg?logo=&style=for-the-badge"> 
+<img src="https://img.shields.io/badge/-Express-003791.svg?logo=&style=for-the-badge"> 
+<img src="https://img.shields.io/badge/-Render-5391FE.svg?logo=powershell&style=for-the-badge">  
+<img src="https://img.shields.io/badge/-chakra%20ui-258AAF.svg?logo=&style=for-the-badge"> 
+<img src="https://img.shields.io/badge/-Knex-272822.svg?logo=&style=for-the-badge">  
+
+
+
+
+
+
 
 This app illustrates how to use [Passport](https://www.passportjs.org/) with
 [Express](https://expressjs.com/) to sign users in with [Google](https://www.google.com/).
