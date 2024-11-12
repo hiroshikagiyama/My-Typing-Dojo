@@ -4,7 +4,7 @@ Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onre
 ```hoge```と入力して、```Login```ボタンを押して、プレイ開始です。  
 
 ##play demo  
-https://github.com/user-attachments/assets/3ae47424-79a4-42bf-a5ef-91edd5128865
+![gif](https://github.com/user-attachments/assets/3ae47424-79a4-42bf-a5ef-91edd5128865)
 
 このアプリは以下技術を利用しています。
 <img src="https://img.shields.io/badge/-Javascript-F7DF1E.svg?logo=javascript&style=plastic">
