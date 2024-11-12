@@ -1,4 +1,9 @@
-# todos-express-google
+# My-typing-dojo
+タイピングと日々の学習を同時に行える。タイピングアプリです。
+Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onrender.com)から利用できます。
+
+このアプリは以下技術を利用しています。
+<img src="https://img.shields.io/badge/-Javascript-F7DF1E.svg?logo=javascript&style=plastic">
 
 This app illustrates how to use [Passport](https://www.passportjs.org/) with
 [Express](https://expressjs.com/) to sign users in with [Google](https://www.google.com/).
