@@ -2,7 +2,11 @@ import './App.css';
 import Home from './Home.jsx';
 import { useEffect, useState } from 'react';
 import Typing from './Typing.jsx';
-import { url } from './Home.jsx';
+
+const url =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_DB_URL
+    : 'http://localhost:3000/';
 
 function App() {
   const [userData, setUserData] = useState('');
@@ -10,11 +14,13 @@ function App() {
 
   useEffect(() => {
     let ignore = false;
+
     (async () => {
       let response = await fetch(`${url}api/sentence`);
       response = await response.json();
       if (!ignore) setSentenceData(response.data);
     })();
+
     return () => {
       ignore = true;
     };

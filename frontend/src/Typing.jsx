@@ -4,7 +4,11 @@ import { TypingButton } from './components/TypingButton.jsx';
 import { SentenceBox } from './components/SentenceBox.jsx';
 import { LargeText } from './components/LargeText.jsx';
 import { MiddleText } from './components/MiddleText.jsx';
-import { url } from './Home.jsx';
+
+const url =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_DB_URL
+    : 'http://localhost:3000/';
 
 const Typing = ({ sentenceData, userData }) => {
   const [count, setCount] = useState(0);
