@@ -3,6 +3,11 @@ import Home from './Home.jsx';
 import { useEffect, useState } from 'react';
 import Typing from './Typing.jsx';
 
+const url =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000/'
+    : 'https://my-typing-dojo.onrender.com/';
+
 function App() {
   const [userData, setUserData] = useState('');
   const [sentenceData, setSentenceData] = useState([]);
@@ -10,7 +15,7 @@ function App() {
   useEffect(() => {
     let ignore = false;
     (async () => {
-      let response = await fetch(`http://localhost:3000/api/sentence`);
+      let response = await fetch(`${url}api/sentence`);
       response = await response.json();
       if (!ignore) setSentenceData(response.data);
     })();
