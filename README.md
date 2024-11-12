@@ -6,48 +6,44 @@ Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onre
 ## play demo  
 ![gif](https://github.com/user-attachments/assets/3ae47424-79a4-42bf-a5ef-91edd5128865)
 
-このアプリは以下技術を利用しています。
+このアプリは以下技術を利用しています。  
 <img src="https://img.shields.io/badge/-React-61DAFB.svg?logo=react&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/-Javascript-F7DF1E.svg?logo=javascript&style=for-the-badge"> 
-<img src="https://img.shields.io/badge/-Postgresql-336791.svg?logo=postgresql&style=for-the-badge">  
+<img src="https://img.shields.io/badge/-Postgresql-336791.svg?logo=postgresql&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/-Vite-003791.svg?logo=&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/-Express-003791.svg?logo=&style=for-the-badge"> 
-<img src="https://img.shields.io/badge/-Render-5391FE.svg?logo=powershell&style=for-the-badge">  
+<img src="https://img.shields.io/badge/-Render-5391FE.svg?logo=powershell&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/-chakra%20ui-258AAF.svg?logo=&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/-Knex-272822.svg?logo=&style=for-the-badge">  
 
-
-
-
-
-
-
-This app illustrates how to use [Passport](https://www.passportjs.org/) with
-[Express](https://expressjs.com/) to sign users in with [Google](https://www.google.com/).
-Use this example as a starting point for your own web applications.
-
 ## Quick Start
-
-To run this app, clone the repository and install dependencies:
-
+* 以下のコマンドを実行して、ローカルリポジトリにクローンしてください。
 ```bash
-$ git clone https://github.com/passport/todos-express-google.git
-$ cd todos-express-google
+$ git clone git@github.com:hiroshikagiyama/my-typing-dojo.git
+$ cd my-typing-dojo
 $ npm install
 ```
 
-This app requires OAuth 2.0 credentials from Google, which can be obtained by
-[setting up](https://developers.google.com/identity/protocols/oauth2/openid-connect#appsetup)
-a project in [Google API console](https://console.developers.google.com/apis/).
-The redirect URI of the OAuth client should be set to `'http://localhost:3000/oauth2/redirect/google'`.
+* ローカル環境に、データベースを作成します。 ご自身の方法で作成していただいて結構です。
+```bash  
+$ psql postgres
+```  
+```#postgres=```になっていることを確認してください。  
 
-Once credentials have been obtained, create a `.env` file and add the following
-environment variables:
+* データベースを作成します。
+```bash  
+$ CREATE DATABASE my_typing_dojo;
+```  
+```CREATE DATABASE```の表示になれば、成功です。
 
-```
-GOOGLE_CLIENT_ID=__INSERT_CLIENT_ID_HERE__
-GOOGLE_CLIENT_SECRET=__INSERT_CLIENT_SECRET_HERE__
-```
+* 
+* インストールが完了したら、コードエディターを開いてください。
+
+
+
+
+
+
 
 Start the server.
 
