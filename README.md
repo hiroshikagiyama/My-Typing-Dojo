@@ -36,19 +36,12 @@ $ cd frontend
 $ npm install
 ```
 
-* Chakra UIの必要なライブラリをインストールします。
-```bash
-$ npm i @chakra-ui/react @emotion/react
-$ npx @chakra-ui/cli snippet add
-```
-
 * backendディレクトリで、必要なライブラリをインストールします。
 ```bash
 $ cd ..
 $ cd backend
 $ npm install
 ```
-
 
 * ローカル環境に、データベースを作成します。 ご自身の方法で作成していただいて結構です。
 * psqlにログインします。
