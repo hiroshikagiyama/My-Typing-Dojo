@@ -17,18 +17,4 @@ const typingLog = [
     wpm: 30,
     date: '2024-11-08',
   },
-  {
-    id: 2,
-    sentence_id: 1,
-    user_id: 1,
-    wpm: 33,
-    date: '2024-11-08',
-  },
-  {
-    id: 3,
-    sentence_id: 2,
-    user_id: 1,
-    wpm: 28,
-    date: '2024-11-08',
-  },
 ];
