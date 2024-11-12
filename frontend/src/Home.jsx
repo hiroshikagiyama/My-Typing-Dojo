@@ -7,7 +7,7 @@ const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
   async function handleFetch() {
     let response = await fetch(
-      `https://my-typing-dojo.onrender.com/${inputName}`
+      `https://my-typing-dojo.onrender.com/api/users/${inputName}`
     );
     response = await response.json();
     setUserData(response.data);
