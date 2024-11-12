@@ -4,6 +4,7 @@ import { TypingButton } from './components/TypingButton.jsx';
 import { SentenceBox } from './components/SentenceBox.jsx';
 import { LargeText } from './components/LargeText.jsx';
 import { MiddleText } from './components/MiddleText.jsx';
+import { url } from './Home.jsx';
 
 const Typing = ({ sentenceData, userData }) => {
   const [count, setCount] = useState(0);
@@ -97,7 +98,7 @@ const Typing = ({ sentenceData, userData }) => {
       wpm: wpm,
       date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };
-    await fetch('https://my-typing-dojo.onrender.com/api/record', {
+    await fetch(`${url}api/record`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
