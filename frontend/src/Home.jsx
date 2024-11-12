@@ -8,7 +8,7 @@ const url =
     ? 'http://localhost:3000/'
     : 'https://my-typing-dojo.onrender.com/';
 
-console.log(`${url}`);
+console.log(process.env.NODE_ENV, `   ${url}`);
 
 const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
