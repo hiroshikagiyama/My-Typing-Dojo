@@ -7,7 +7,7 @@ import { MiddleText } from './components/MiddleText.jsx';
 
 const url =
   process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_DB_URL
+    ? 'https://my-typing-dojo.onrender.com/'
     : 'http://localhost:3000/';
 
 const Typing = ({ sentenceData, userData }) => {
