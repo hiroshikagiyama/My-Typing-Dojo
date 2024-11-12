@@ -4,7 +4,7 @@ Renderで公開しているので、[My-typing-dojo](https://my-typing-dojo.onre
 ```hoge```と入力して、```Login```ボタンを押して、プレイ開始です。  
 
 ##play demo  
-https://github.com/hiroshikagiyama/my-typing-dojo/issues/1
+https://private-user-images.githubusercontent.com/143395175/385169716-f1628fae-902b-4e2a-9854-421da5b7fc16.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzEzOTU3ODgsIm5iZiI6MTczMTM5NTQ4OCwicGF0aCI6Ii8xNDMzOTUxNzUvMzg1MTY5NzE2LWYxNjI4ZmFlLTkwMmItNGUyYS05ODU0LTQyMWRhNWI3ZmMxNi5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMTEyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTExMlQwNzExMjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT05YjY3MGZmM2FjODc2ZWE4MGUzY2I2ZDljMzA5MzdkN2MwMTRkY2E5OGNlOWZkODA3NjQ5NmIxNjQ1YTNhZTYyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Rs4vx_DorjMguPkkUo8f-aRojPP2jhTXN449gX5G8_Y
 
 このアプリは以下技術を利用しています。
 <img src="https://img.shields.io/badge/-Javascript-F7DF1E.svg?logo=javascript&style=plastic">
