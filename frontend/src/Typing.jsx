@@ -97,7 +97,7 @@ const Typing = ({ sentenceData, userData }) => {
       wpm: wpm,
       date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };
-    const res = await fetch('https://my-typing-dojo.onrender.com/api/record', {
+    await fetch('https://my-typing-dojo.onrender.com/api/record', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
