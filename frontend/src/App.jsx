@@ -8,6 +8,9 @@ const url =
     ? process.env.REACT_APP_DB_URL
     : 'http://localhost:3000/';
 
+console.log('🚀🚀🚀🚀 process.env.NODE_ENV--->> ', process.env.NODE_ENV);
+console.log('🚀🚀🚀🚀 url--->> ', url);
+
 function App() {
   const [userData, setUserData] = useState('');
   const [sentenceData, setSentenceData] = useState([]);
