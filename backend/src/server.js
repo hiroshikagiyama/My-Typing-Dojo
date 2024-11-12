@@ -9,6 +9,8 @@ const url =
     ? 'http://localhost:5173'
     : 'https://my-typing-dojo.onrender.com/';
 
+console.log('process.env.NODE_ENV ---> ', process.env.NODE_ENV);
+
 function setupServer() {
   const app = express();
   app.use(express.static(__dirname + '/public'));

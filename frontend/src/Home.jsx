@@ -3,17 +3,12 @@ import { Input } from '@chakra-ui/react';
 import { Text } from '@chakra-ui/react';
 import { HomeButton } from './components/HomeButton.jsx';
 
-const url =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000/'
-    : 'https://my-typing-dojo.onrender.com/';
-
-console.log(process.env.NODE_ENV, `   ${url}`);
-
 const Home = ({ setUserData }) => {
   const [inputName, setInputName] = useState('');
   async function handleFetch() {
-    let response = await fetch(`${url}api/users/${inputName}`);
+    let response = await fetch(
+      `https://my-typing-dojo.onrender.com/${inputName}`
+    );
     response = await response.json();
     setUserData(response.data);
   }
