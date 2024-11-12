@@ -4,13 +4,19 @@ const typingLogController = require('./typingLog/typingLog.controller');
 const cors = require('cors');
 const express = require('express');
 
+const url =
+  process.env.NODE_ENV === undefined
+    ? 'http://localhost:5173'
+    : 'https://my-typing-dojo.onrender.com/';
+console.log('url --->> ', url);
+
 function setupServer() {
   const app = express();
   app.use('/', express.static(__dirname + '/public'));
   // cors許可の設定 参考：https://zenn.dev/luvmini511/articles/d8b2322e95ff40
   app.use(
     cors({
-      origin: 'http://localhost:5173', //アクセス許可するオリジン
+      origin: url, //アクセス許可するオリジン
       credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
       optionsSuccessStatus: 200, //レスポンスstatusを200に設定
     })
