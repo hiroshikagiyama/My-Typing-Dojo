@@ -8,11 +8,11 @@ const url =
   process.env.NODE_ENV === undefined
     ? 'http://localhost:5173'
     : 'https://my-typing-dojo.onrender.com/';
-console.log('url --->> ', url);
 
 function setupServer() {
   const app = express();
-  app.use('/', express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/public'));
+  console.log('static dir: ', __dirname + '/public');
   // cors許可の設定 参考：https://zenn.dev/luvmini511/articles/d8b2322e95ff40
   app.use(
     cors({
