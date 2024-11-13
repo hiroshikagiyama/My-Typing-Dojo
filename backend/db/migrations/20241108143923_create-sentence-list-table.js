@@ -3,7 +3,7 @@ exports.up = async (knex) => {
     table.increments('id').primary();
     table.string('sentence').notNullable();
     table.string('tag').notNullable();
-    table.integer('add_user_id').notNullable();
+    table.integer('add_user_id');
     table.foreign('add_user_id').references('user_list.id').onDelete('CASCADE');
   });
 };
