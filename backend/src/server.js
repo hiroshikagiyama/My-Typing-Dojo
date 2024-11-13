@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const userController = require('./user/user.controller');
 const sentenceController = require('./sentence/sentence.controller');
@@ -16,7 +17,7 @@ const url =
 
 // 🚨 DBに格納するユーザーデータ
 const userDB = [
-  { username: 'test', password: bcrypt.hashSync('password', 10) },
+  { username: 'test', salt: 10, password: bcrypt.hashSync('password', 10) },
 ];
 
 function setupServer() {
@@ -25,6 +26,8 @@ function setupServer() {
 
   // アプリ起動時の参照先
   app.use(express.static(__dirname + '/public'));
+
+  console.log('cors許可URL： ', url);
 
   // cors許可の設定 参考：https://zenn.dev/luvmini511/articles/d8b2322e95ff40
   app.use(
@@ -81,6 +84,7 @@ function setupServer() {
 
   // ログインエンドポイント
   app.get('/login', (req, res) => {
+    console.log(req.query);
     const { username, password } = req.query;
     if (!username || !password) {
       return res.status(400).json({
@@ -111,11 +115,34 @@ function setupServer() {
     // passwordをハッシュ化してDBに保存
     const newUser = { username, password: bcrypt.hashSync(password, 10) };
     userDB.push(newUser);
-
+    console.log('userDB: ', userDB);
     // signUpが成功したのでログイン済みとしてsessionの追加
     req.logIn(newUser, () => {
       return res.json({ message: 'サインアップ完了！', newUser });
     });
+  });
+
+  // 🚨🚨🚨 作業中 🚨🚨🚨 ===========================================
+  // サインアップエンドポイント post version に書き換え
+  app.post('/signup', (req, res) => {
+    const { username, password } = req.body.text;
+    // salt 作成
+    const salt = crypto.randomBytes(6).toString('hex');
+    // saltをpasswordに付け加える
+    const saltAndPassword = `${salt}${password}`;
+    // sha256 を使ってハッシュオブジェクトを作る
+    const hash = crypto.createHash('sha256');
+    // ハッシュ化したパスワードを取り出し
+    const hashedPassword = hash.update(saltAndPassword).digest('hex');
+
+    // DBに保存
+    const newUser = {
+      username,
+      salt,
+      password: hashedPassword,
+    };
+    userDB.push(newUser);
+    res.json({ message: 'signup endpoint ok!', userDB: userDB });
   });
 
   // ログアウトエンドポイント
