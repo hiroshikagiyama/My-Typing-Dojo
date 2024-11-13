@@ -111,39 +111,10 @@ function setupServer() {
         message: 'usernameとpasswordが必要です',
       });
     }
-
-    // passwordをハッシュ化してDBに保存
-    const newUser = { username, password: bcrypt.hashSync(password, 10) };
-    userDB.push(newUser);
-    console.log('userDB: ', userDB);
-    // signUpが成功したのでログイン済みとしてsessionの追加
-    req.logIn(newUser, () => {
-      return res.json({ message: 'サインアップ完了！', newUser });
-    });
   });
 
-  // 🚨🚨🚨 作業中 🚨🚨🚨 ===========================================
-  // サインアップエンドポイント post version に書き換え
-  app.post('/signup', (req, res) => {
-    const { username, password } = req.body.text;
-    // salt 作成
-    const salt = crypto.randomBytes(6).toString('hex');
-    // saltをpasswordに付け加える
-    const saltAndPassword = `${salt}${password}`;
-    // sha256 を使ってハッシュオブジェクトを作る
-    const hash = crypto.createHash('sha256');
-    // ハッシュ化したパスワードを取り出し
-    const hashedPassword = hash.update(saltAndPassword).digest('hex');
-
-    // DBに保存
-    const newUser = {
-      username,
-      salt,
-      password: hashedPassword,
-    };
-    userDB.push(newUser);
-    res.json({ message: 'signup endpoint ok!', userDB: userDB });
-  });
+  // サインアップ
+  app.post('/signup', userController.save);
 
   // ログアウトエンドポイント
   app.get('/logout', (req, res) => {
