@@ -1,7 +1,8 @@
 import { Box, Button, Center, Input, Text, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { SentenceDataContext } from '../components/ContextProvider.jsx';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const Login = () => {
   const [loginMode, setLoginMode] = useState('login');
   const [isInputError, setIsInputError] = useState(false);
   const navigate = useNavigate();
+  const { setSentenceData } = useContext(SentenceDataContext);
 
   // ログイン画面 文字数下限値設定
   const isLoginButtonEnabled = username.length >= 4 && password.length >= 4;
@@ -40,13 +42,27 @@ const Login = () => {
     }
   };
 
+  // タイピング用の文字列を取得
+  useEffect(() => {
+    let ignore = false;
+    console.log('🚀🚀🚀🚀 useEffect--->> ');
+    (async () => {
+      let response = await fetch('/api/sentence');
+      response = await response.json();
+      if (!ignore) setSentenceData(response.data);
+    })();
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
   return (
     <Center>
       <Box mt="4xl" w="md">
         <VStack>
           <Center>
             <Text fontSize="5xl" fontWeight="bold">
-              Login sample app
+              my typing dojo
             </Text>
           </Center>
           <VStack>

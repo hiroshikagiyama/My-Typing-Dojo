@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import { TypingButton } from '../components/TypingButton.jsx';
 import { SentenceBox } from '../components/SentenceBox.jsx';
 import { LargeText } from '../components/LargeText.jsx';
 import { MiddleText } from '../components/MiddleText.jsx';
+import { SentenceDataContext } from '../components/ContextProvider.jsx';
 
 const Typing = () => {
   const [count, setCount] = useState(0);
@@ -12,21 +13,8 @@ const Typing = () => {
   const [isMatchArray, setIsMatchArray] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
-  const [sentenceData, setSentenceData] = useState([]);
 
-  // タイピング用の文字列を取得
-  useEffect(() => {
-    let ignore = false;
-    console.log('🚀🚀🚀🚀 useEffect--->> ');
-    (async () => {
-      let response = await fetch('/api/sentence');
-      response = await response.json();
-      if (!ignore) setSentenceData(response.data);
-    })();
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const { sentenceData } = useContext(SentenceDataContext);
 
   console.log('👻👻👻👻👻', sentenceData, '👻👻👻👻👻');
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
