@@ -104,7 +104,7 @@ function setupServer() {
   });
 
   // サインアップ
-  app.post('/signup', userController.save);
+  app.post('/api/signup', userController.save);
 
   // ログアウトエンドポイント
   app.get('/api/logout', (req, res, next) => {

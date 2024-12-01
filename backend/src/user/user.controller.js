@@ -13,7 +13,8 @@ module.exports = {
   },
 
   async save(req, res) {
-    const { username, email, password } = req.body.text;
+    console.log('🚀🚀🚀🚀 save--->> ');
+    const { username, email, password } = req.body;
     if (!username || !email || !password) {
       res.status(400).json({
         message: 'usernameとemailとpasswordが必要です',

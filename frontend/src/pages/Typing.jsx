@@ -1,22 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
-import { TypingButton } from './components/TypingButton.jsx';
-import { SentenceBox } from './components/SentenceBox.jsx';
-import { LargeText } from './components/LargeText.jsx';
-import { MiddleText } from './components/MiddleText.jsx';
+import { TypingButton } from '../components/TypingButton.jsx';
+import { SentenceBox } from '../components/SentenceBox.jsx';
+import { LargeText } from '../components/LargeText.jsx';
+import { MiddleText } from '../components/MiddleText.jsx';
 
 const url =
   process.env.NODE_ENV === 'production'
     ? 'https://my-typing-dojo.onrender.com/'
     : 'http://localhost:3000/';
 
-const Typing = ({ sentenceData, userData }) => {
+const Typing = () => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
+  const [sentenceData, setSentenceData] = useState([]);
+
+  // タイピング用の文字列を取得
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      let response = await fetch('api/sentence');
+      response = await response.json();
+      if (!ignore) setSentenceData(response.data);
+    })();
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startFocus = useRef(null);
