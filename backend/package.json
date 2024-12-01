@@ -9,11 +9,11 @@
     "test:watch": "mocha --watch",
     "lint": "eslint --fix --ext .js .",
     "format": "prettier --write .",
-    "db:migrate": "knex migrate:latest",
-    "db:migrate-make": "knex migrate:make",
-    "db:seed": "knex seed:run",
-    "db:seed-make": "knex seed:make",
-    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
+    "migrate": "knex migrate:latest",
+    "migrate-make": "knex migrate:make",
+    "seed": "knex seed:run",
+    "seed-make": "knex seed:make",
+    "reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
     "setup": "npm install && npm run migrate && npm run seed"
   },
   "dependencies": {
