@@ -4,7 +4,6 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 
 const userController = require('./user/user.controller');
 const sentenceController = require('./sentence/sentence.controller');
@@ -83,8 +82,8 @@ function setupServer() {
   });
 
   // ログインエンドポイント
-  app.get('/login', (req, res) => {
-    console.log(req.query);
+  // 🚨🚨🚨 作業中 🚨🚨🚨 ===========================================
+  app.post('/login', (req, res) => {
     const { username, password } = req.query;
     if (!username || !password) {
       return res.status(400).json({
@@ -101,16 +100,6 @@ function setupServer() {
         return res.json({ message: `ログイン成功！ Hello, ${user.username}` });
       });
     })(req, res);
-  });
-
-  // サインアップエンドポイント
-  app.get('/signup', (req, res) => {
-    const { username, password } = req.query;
-    if (!username || !password) {
-      return res.status(400).json({
-        message: 'usernameとpasswordが必要です',
-      });
-    }
   });
 
   // サインアップ
