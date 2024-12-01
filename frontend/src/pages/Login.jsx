@@ -33,7 +33,7 @@ const Login = () => {
       });
       console.log('server response: ', response.data);
       setIsInputError(false);
-      navigate('/user_list');
+      navigate('/typing');
     } catch (err) {
       setIsInputError(true);
       console.log('server response: ', err.message);
@@ -50,31 +50,31 @@ const Login = () => {
             </Text>
           </Center>
           <VStack>
-            <Text color="gray.700">Name</Text>
+            <Text>Name</Text>
             <Input
               type="text"
               placeholder="your name"
-              color="gray.700"
+              // color="gray.700"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             ></Input>
             {loginMode === 'signup' && (
               <>
-                <Text color="gray.700">E-Mail</Text>
+                <Text>E-Mail</Text>
                 <Input
                   type="email"
                   placeholder="your e-mail"
-                  color="gray.700"
+                  // color="gray.700"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 ></Input>
               </>
             )}
-            <Text color="gray.700">Password</Text>
+            <Text>Password</Text>
             <Input
               type="password"
               placeholder="your password"
-              color="gray.700"
+              // color="gray.700"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></Input>

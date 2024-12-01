@@ -5,11 +5,6 @@ import { SentenceBox } from '../components/SentenceBox.jsx';
 import { LargeText } from '../components/LargeText.jsx';
 import { MiddleText } from '../components/MiddleText.jsx';
 
-const url =
-  process.env.NODE_ENV === 'production'
-    ? 'https://my-typing-dojo.onrender.com/'
-    : 'http://localhost:3000/';
-
 const Typing = () => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
@@ -22,8 +17,9 @@ const Typing = () => {
   // タイピング用の文字列を取得
   useEffect(() => {
     let ignore = false;
+    console.log('🚀🚀🚀🚀 useEffect--->> ');
     (async () => {
-      let response = await fetch('api/sentence');
+      let response = await fetch('/api/sentence');
       response = await response.json();
       if (!ignore) setSentenceData(response.data);
     })();
@@ -32,6 +28,7 @@ const Typing = () => {
     };
   }, []);
 
+  console.log('👻👻👻👻👻', sentenceData, '👻👻👻👻👻');
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startFocus = useRef(null);
   useEffect(() => {
@@ -116,7 +113,7 @@ const Typing = () => {
       wpm: wpm,
       date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };
-    await fetch(`${url}api/record`, {
+    await fetch('api/record', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,9 +144,9 @@ const Typing = () => {
       ) : (
         <LargeText color={'#242424'}>#</LargeText>
       )}
-      <MiddleText>{sentenceData[count].tag}</MiddleText>
+      <MiddleText>{sentenceData[count]?.tag}</MiddleText>
       <Flex flexWrap="wrap" gap="1" width="800px">
-        {sentenceData[count].sentence.split('').map((splitChar, i) => (
+        {sentenceData[count]?.sentence.split('').map((splitChar, i) => (
           <SentenceBox
             key={i}
             splitChar={splitChar}
