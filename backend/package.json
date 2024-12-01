@@ -3,10 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/index.js",
-
     "build": "npm install",
     "start": "node ./src/index.js",
-
     "test": "mocha --require test/setup.js",
     "test:watch": "mocha --watch",
     "lint": "eslint --fix --ext .js .",
@@ -15,7 +13,8 @@
     "db:migrate-make": "knex migrate:make",
     "db:seed": "knex seed:run",
     "db:seed-make": "knex seed:make",
-    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run"
+    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
+    "setup": "npm install && npm run migrate && npm run seed"
   },
   "dependencies": {
     "cors": "^2.8.5",
