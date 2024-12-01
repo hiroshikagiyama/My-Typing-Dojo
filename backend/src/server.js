@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
@@ -8,30 +9,21 @@ const bcrypt = require('bcrypt');
 const userController = require('./user/user.controller');
 const sentenceController = require('./sentence/sentence.controller');
 const typingLogController = require('./typingLog/typingLog.controller');
+const userModel = require('./user/user.model');
+const path = require('path');
 
-const url =
-  process.env.NODE_ENV === undefined
-    ? 'http://localhost:5173'
-    : 'https://my-typing-dojo.onrender.com/';
-
-// 🚨 DBに格納するユーザーデータ
-const userDB = [
-  { username: 'test', salt: 10, password: bcrypt.hashSync('password', 10) },
-];
+const ORIGIN_URL = process.env.ORIGIN_URL || process.env.VITE_LOCALHOST;
 
 function setupServer() {
   const app = express();
   app.use(express.json());
-
   // アプリ起動時の参照先
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-  console.log('cors許可URL： ', url);
-
-  // cors許可の設定 参考：https://zenn.dev/luvmini511/articles/d8b2322e95ff40
+  // cors設定
   app.use(
     cors({
-      origin: url, //アクセス許可するオリジン
+      origin: ORIGIN_URL, //アクセス許可するオリジン
       credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
       optionsSuccessStatus: 200, //レスポンスstatusを200に設定
     })
@@ -39,7 +31,20 @@ function setupServer() {
 
   // 認証機能 ====================================================
   // セッション設定 express-session
-  app.use(session({ secret: 'secretKey' }));
+  app.set('trust proxy', true); // Renderでsession idが保存されないので設定
+  app.use(
+    session({
+      secret: process.env.COOKIE_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 有効期限設定 1日
+        secure: process.env.NODE_ENV === 'production', // true->httpsのみを許可、localはhttpなので切り替え
+        httpOnly: true, // javascriptからのアクセスを防ぐ
+      },
+    })
+  );
+
   // passport session
   app.use(passport.initialize());
   app.use(passport.session());
@@ -47,14 +52,13 @@ function setupServer() {
   // LocalStrategy(ユーザー名・パスワードでの認証)の設定
   passport.use(
     new LocalStrategy(async (username, password, done) => {
-      const user = userDB.find((user) => user.username === username);
-
-      if (!user) {
+      const user = await userModel.find(username);
+      if (user.hashed_password === undefined) {
         // ユーザーが見つからない場合
         return done(null, false);
       }
       // ハッシュ化したPWの突き合わせ。入力されたpasswordから、DBに保存されたハッシュ値を比較する
-      const match = await bcrypt.compare(password, user.password);
+      const match = await bcrypt.compare(password, user.hashed_password);
       if (match) {
         return done(null, user); // ログイン成功
       } else {
@@ -65,26 +69,23 @@ function setupServer() {
 
   // 認証に成功した時にsessionにusernameを保存するための記述
   passport.serializeUser((user, done) => done(null, user.username));
-  // sessionからusernameを取り出して検証するための記述
-  passport.deserializeUser((username, done) => {
-    const user = userDB.find((user) => user.username === username);
+  // sessionからuserを取り出して検証するための記述
+  passport.deserializeUser(async (username, done) => {
+    const user = await userModel.find(username);
     done(null, user);
   });
 
-  // ユーザー一覧取得エンドポイント
-  app.get('/users', (req, res) => {
-    // sessionから情報を取得して認証
+  // 認証状態を確認するミドルウエア
+  function checkAuth(req, res, next) {
     if (req.isAuthenticated()) {
-      res.json(userDB);
-    } else {
-      res.status(401).json({ message: 'ログインが必要です！' });
+      return next(); // 認証済みの場合、次のミドルウェアへ
     }
-  });
+    res.status(401).json({ message: 'ログインが必要です' });
+  }
 
   // ログインエンドポイント
-  // 🚨🚨🚨 作業中 🚨🚨🚨 ===========================================
-  app.post('/login', (req, res) => {
-    const { username, password } = req.query;
+  app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
     if (!username || !password) {
       return res.status(400).json({
         message: 'usernameとpasswordが必要です',
@@ -106,9 +107,25 @@ function setupServer() {
   app.post('/signup', userController.save);
 
   // ログアウトエンドポイント
-  app.get('/logout', (req, res) => {
-    req.logout(() => {
-      res.json({ message: 'ログアウト成功' });
+  app.get('/api/logout', (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err); // エラーハンドリングを適切に行う
+      }
+
+      req.session.destroy((err) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: 'セッション削除に失敗しました' });
+        }
+        res.clearCookie('connect.sid', {
+          secure: process.env.NODE_ENV === 'production',
+          httpOnly: true,
+        });
+
+        return res.json({ message: 'ログアウト成功' });
+      });
     });
   });
 
@@ -123,17 +140,27 @@ function setupServer() {
       },
     });
   });
+
+  // 認証状態を確認するためのエンドポイント
+  app.get('/api/auth_check', (req, res) => {
+    // isAuthenticated() は認証状態をtrue,falseで返すメソッド
+    if (req.isAuthenticated()) {
+      res.json({ authenticated: true, user: req.user });
+    } else {
+      res.json({ authenticated: false });
+    }
+  });
+
   // ===========================================================
+  app.post('/api/record', checkAuth, typingLogController.add);
+  app.get('/api/record/:id', checkAuth, typingLogController.index);
+  app.get('/api/record', checkAuth, typingLogController.view);
 
-  app.post('/api/record', typingLogController.add);
-  app.get('/api/record/:id', typingLogController.index);
-  app.get('/api/record', typingLogController.view);
+  app.get('/api/users/:name', checkAuth, userController.index);
+  app.get('/api/users', checkAuth, userController.view);
 
-  app.get('/api/users/:name', userController.index);
-  app.get('/api/users', userController.view);
-
-  app.get('/api/sentence/:tag', sentenceController.tag);
-  app.get('/api/sentence', sentenceController.view);
+  app.get('/api/sentence/:tag', checkAuth, sentenceController.tag);
+  app.get('/api/sentence', checkAuth, sentenceController.view);
 
   return app;
 }
