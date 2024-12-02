@@ -129,18 +129,6 @@ function setupServer() {
     });
   });
 
-  // エンドポイントの説明
-  app.get('/', (req, res) => {
-    res.json({
-      endpoints: {
-        '/users': 'ユーザー一覧',
-        '/login?username=<username>&password=<password>': 'ログイン',
-        '/signup?username=<username>&password=<password>': 'サインアップ',
-        '/logout': 'ログアウト',
-      },
-    });
-  });
-
   // 認証状態を確認するためのエンドポイント
   app.get('/api/auth_check', (req, res) => {
     // isAuthenticated() は認証状態をtrue,falseで返すメソッド
