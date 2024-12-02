@@ -2,7 +2,10 @@ import { Box, Button, Center, Input, Text, VStack } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { SentenceDataContext } from '../components/ContextProvider.jsx';
+import {
+  LoginUserContext,
+  SentenceDataContext,
+} from '../components/ContextProvider.jsx';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,6 +15,7 @@ const Login = () => {
   const [isInputError, setIsInputError] = useState(false);
   const navigate = useNavigate();
   const { setSentenceData } = useContext(SentenceDataContext);
+  const { setLoginUser } = useContext(LoginUserContext);
 
   // ログイン画面 文字数下限値設定
   const isLoginButtonEnabled = username.length >= 4 && password.length >= 4;
@@ -35,6 +39,7 @@ const Login = () => {
       });
       console.log('server response: ', response.data);
       setIsInputError(false);
+      setLoginUser(response.data.loginUser);
       navigate('/typing');
     } catch (err) {
       setIsInputError(true);

@@ -4,7 +4,10 @@ import { TypingButton } from '../components/TypingButton.jsx';
 import { SentenceBox } from '../components/SentenceBox.jsx';
 import { LargeText } from '../components/LargeText.jsx';
 import { MiddleText } from '../components/MiddleText.jsx';
-import { SentenceDataContext } from '../components/ContextProvider.jsx';
+import {
+  LoginUserContext,
+  SentenceDataContext,
+} from '../components/ContextProvider.jsx';
 
 const Typing = () => {
   const [count, setCount] = useState(0);
@@ -15,8 +18,8 @@ const Typing = () => {
   const [wpm, setWpm] = useState(0);
 
   const { sentenceData } = useContext(SentenceDataContext);
+  const { loginUser } = useContext(LoginUserContext);
 
-  console.log('👻👻👻👻👻', sentenceData, '👻👻👻👻👻');
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startFocus = useRef(null);
   useEffect(() => {
@@ -97,7 +100,7 @@ const Typing = () => {
   async function addWpm(wpm) {
     const wpmData = {
       sentenceId: sentenceData[count].id,
-      userId: userData.id,
+      userId: loginUser.userId,
       wpm: wpm,
       date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };

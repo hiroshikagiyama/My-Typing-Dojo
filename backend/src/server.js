@@ -98,7 +98,10 @@ function setupServer() {
 
       // sessionにログイン情報を格納
       req.logIn(user, () => {
-        return res.json({ message: `ログイン成功！ Hello, ${user.username}` });
+        return res.json({
+          message: 'ログイン成功！ Hello,',
+          loginUser: { username: user.username, userId: user.id },
+        });
       });
     })(req, res);
   });
@@ -147,8 +150,8 @@ function setupServer() {
   app.get('/api/users/:name', checkAuth, userController.index);
   app.get('/api/users', checkAuth, userController.view);
 
-  app.get('/api/sentence/:tag', checkAuth, sentenceController.tag);
-  app.get('/api/sentence', checkAuth, sentenceController.view);
+  app.get('/api/sentence/:tag', sentenceController.tag);
+  app.get('/api/sentence', sentenceController.view);
 
   return app;
 }
