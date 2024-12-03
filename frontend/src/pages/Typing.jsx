@@ -102,7 +102,6 @@ const Typing = () => {
       sentenceId: sentenceData[count].id,
       userId: loginUser.userId,
       wpm: wpm,
-      date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };
     await fetch('api/record', {
       method: 'POST',

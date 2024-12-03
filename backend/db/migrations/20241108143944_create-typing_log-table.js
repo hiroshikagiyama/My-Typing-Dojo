@@ -4,7 +4,7 @@ exports.up = async (knex) => {
     table.integer('sentence_id').notNullable();
     table.integer('user_id').notNullable();
     table.integer('wpm').notNullable();
-    table.date('date').notNullable();
+    table.timestamp('created_at').defaultTo(knex.fn.now());
     table
       .foreign('sentence_id')
       .references('sentence_list.id')
