@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Flex, VStack } from '@chakra-ui/react';
 import { TypingButton } from '../components/TypingButton.jsx';
 import { SentenceBox } from '../components/SentenceBox.jsx';
 import { LargeText } from '../components/LargeText.jsx';
@@ -16,6 +17,7 @@ const Typing = () => {
   const [isMatchArray, setIsMatchArray] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
+  const navigate = useNavigate();
 
   const { sentenceData } = useContext(SentenceDataContext);
   const { loginUser } = useContext(LoginUserContext);
@@ -122,6 +124,17 @@ const Typing = () => {
     setIsMatchArray(isMatchResults);
   }
 
+  // logout
+  const handleLogoutClick = async () => {
+    // fetch version
+    let response = await fetch(`/api/logout`);
+    const data = await response.json();
+    console.log('server response: ', data);
+    if (response.ok) {
+      navigate('/');
+    }
+  };
+
   return (
     <Box
       onKeyDown={handleKeyDown}
@@ -147,13 +160,18 @@ const Typing = () => {
           </SentenceBox>
         ))}
       </Flex>
-      {count > 0 && (
-        <TypingButton clickFunc={handleBackClick}>back</TypingButton>
-      )}
-      <TypingButton clickFunc={handlePlayStart}>start</TypingButton>
-      {sentenceData.length - 1 > count && (
-        <TypingButton clickFunc={handleNextClick}>next</TypingButton>
-      )}
+      <VStack>
+        <Box>
+          {count > 0 && (
+            <TypingButton clickFunc={handleBackClick}>back</TypingButton>
+          )}
+          <TypingButton clickFunc={handlePlayStart}>start</TypingButton>
+          {sentenceData.length - 1 > count && (
+            <TypingButton clickFunc={handleNextClick}>next</TypingButton>
+          )}
+        </Box>
+        <TypingButton clickFunc={handleLogoutClick}>logout</TypingButton>
+      </VStack>
     </Box>
   );
 };
