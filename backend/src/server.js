@@ -5,6 +5,7 @@ const passport = require('passport');
 const userController = require('./user/user.controller');
 const sentenceController = require('./sentence/sentence.controller');
 const typingLogController = require('./typingLog/typingLog.controller');
+const authController = require('./auth/auth.controller');
 const path = require('path');
 
 const { setAuth, checkAuth } = require('./auth/auth');
@@ -15,30 +16,11 @@ function setupServer() {
   // アプリ起動時の参照先
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
+  // 認証機能設定
   setAuth(app);
 
   // ログインエンドポイント
-  app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      return res.status(400).json({
-        message: 'usernameとpasswordが必要です',
-      });
-    }
-
-    // 最初に設定したLocalStrategy(ユーザー名とパスワードでの認証)を使ってログイン
-    passport.authenticate('local', (err, user) => {
-      if (!user) return res.status(401).json({ message: 'ログイン失敗！' });
-
-      // sessionにログイン情報を格納
-      req.logIn(user, () => {
-        return res.json({
-          message: 'ログイン成功！ Hello,',
-          loginUser: { username: user.username, userId: user.id },
-        });
-      });
-    })(req, res);
-  });
+  app.post('/api/login', authController.login);
 
   // サインアップ
   app.post('/api/signup', userController.save);
