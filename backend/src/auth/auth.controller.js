@@ -23,4 +23,26 @@ module.exports = {
       });
     })(req, res);
   },
+
+  async logout(req, res, next) {
+    req.logout((err) => {
+      if (err) {
+        return next(err); // エラーハンドリングを適切に行う
+      }
+
+      req.session.destroy((err) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: 'セッション削除に失敗しました' });
+        }
+        res.clearCookie('connect.sid', {
+          secure: process.env.NODE_ENV === 'production',
+          httpOnly: true,
+        });
+
+        return res.json({ message: 'ログアウト成功' });
+      });
+    });
+  },
 };

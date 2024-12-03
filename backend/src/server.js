@@ -19,34 +19,12 @@ function setupServer() {
   // 認証機能設定
   setAuth(app);
 
-  // ログインエンドポイント
+  // ログイン
   app.post('/api/login', authController.login);
-
+  // ログアウト
+  app.get('/api/logout', authController.logout);
   // サインアップ
   app.post('/api/signup', userController.save);
-
-  // ログアウトエンドポイント
-  app.get('/api/logout', (req, res, next) => {
-    req.logout((err) => {
-      if (err) {
-        return next(err); // エラーハンドリングを適切に行う
-      }
-
-      req.session.destroy((err) => {
-        if (err) {
-          return res
-            .status(500)
-            .json({ message: 'セッション削除に失敗しました' });
-        }
-        res.clearCookie('connect.sid', {
-          secure: process.env.NODE_ENV === 'production',
-          httpOnly: true,
-        });
-
-        return res.json({ message: 'ログアウト成功' });
-      });
-    });
-  });
 
   // 認証状態を確認するためのエンドポイント
   app.get('/api/auth_check', (req, res) => {
