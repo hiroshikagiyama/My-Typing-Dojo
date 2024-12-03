@@ -1,7 +1,5 @@
 const express = require('express');
 
-const passport = require('passport');
-
 const userController = require('./user/user.controller');
 const sentenceController = require('./sentence/sentence.controller');
 const typingLogController = require('./typingLog/typingLog.controller');
@@ -25,16 +23,8 @@ function setupServer() {
   app.get('/api/logout', authController.logout);
   // サインアップ
   app.post('/api/signup', userController.save);
-
   // 認証状態を確認するためのエンドポイント
-  app.get('/api/auth_check', (req, res) => {
-    // isAuthenticated() は認証状態をtrue,falseで返すメソッド
-    if (req.isAuthenticated()) {
-      res.json({ authenticated: true, user: req.user });
-    } else {
-      res.json({ authenticated: false });
-    }
-  });
+  app.get('/api/auth_check', authController.authCheck);
 
   // ===========================================================
   app.post('/api/record', checkAuth, typingLogController.add);

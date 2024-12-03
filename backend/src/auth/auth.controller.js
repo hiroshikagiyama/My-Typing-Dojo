@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const authModel = require('./auth.model');
 const passport = require('passport');
 
@@ -44,5 +46,14 @@ module.exports = {
         return res.json({ message: 'ログアウト成功' });
       });
     });
+  },
+
+  async authCheck(req, res) {
+    // isAuthenticated() は認証状態をtrue,falseで返すメソッド
+    if (req.isAuthenticated()) {
+      res.json({ authenticated: true, user: req.user });
+    } else {
+      res.json({ authenticated: false });
+    }
   },
 };
