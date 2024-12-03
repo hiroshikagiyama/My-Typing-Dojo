@@ -20,7 +20,6 @@ module.exports = {
         sentence_id: typingLog.sentenceId,
         user_id: typingLog.userId,
         wpm: typingLog.wpm,
-        date: typingLog.date,
       })
       .returning('*');
     return newTypingLog;

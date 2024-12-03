@@ -1,22 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
-import { TypingButton } from './components/TypingButton.jsx';
-import { SentenceBox } from './components/SentenceBox.jsx';
-import { LargeText } from './components/LargeText.jsx';
-import { MiddleText } from './components/MiddleText.jsx';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Flex, VStack } from '@chakra-ui/react';
+import { TypingButton } from '../components/TypingButton.jsx';
+import { SentenceBox } from '../components/SentenceBox.jsx';
+import { LargeText } from '../components/LargeText.jsx';
+import { MiddleText } from '../components/MiddleText.jsx';
+import {
+  LoginUserContext,
+  SentenceDataContext,
+} from '../components/ContextProvider.jsx';
 
-const url =
-  process.env.NODE_ENV === 'production'
-    ? 'https://my-typing-dojo.onrender.com/'
-    : 'http://localhost:3000/';
-
-const Typing = ({ sentenceData, userData }) => {
+const Typing = () => {
   const [count, setCount] = useState(0);
   const [pressedKeys, setPressedKeys] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [isMatchArray, setIsMatchArray] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
+  const navigate = useNavigate();
+
+  const { sentenceData } = useContext(SentenceDataContext);
+  const { loginUser } = useContext(LoginUserContext);
 
   // タイピング画面へ移動時にスタートボタンにフォーカスさせる
   const startFocus = useRef(null);
@@ -98,11 +102,10 @@ const Typing = ({ sentenceData, userData }) => {
   async function addWpm(wpm) {
     const wpmData = {
       sentenceId: sentenceData[count].id,
-      userId: userData.id,
+      userId: loginUser.userId,
       wpm: wpm,
-      date: new Date().toLocaleDateString('sv-SE'), //スウェーデンの日付形式を利用 YYYY-MM-DD
     };
-    await fetch(`${url}api/record`, {
+    await fetch('api/record', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,6 +124,17 @@ const Typing = ({ sentenceData, userData }) => {
     setIsMatchArray(isMatchResults);
   }
 
+  // logout
+  const handleLogoutClick = async () => {
+    // fetch version
+    let response = await fetch(`/api/logout`);
+    const data = await response.json();
+    console.log('server response: ', data);
+    if (response.ok) {
+      navigate('/');
+    }
+  };
+
   return (
     <Box
       onKeyDown={handleKeyDown}
@@ -133,9 +147,9 @@ const Typing = ({ sentenceData, userData }) => {
       ) : (
         <LargeText color={'#242424'}>#</LargeText>
       )}
-      <MiddleText>{sentenceData[count].tag}</MiddleText>
+      <MiddleText>{sentenceData[count]?.tag}</MiddleText>
       <Flex flexWrap="wrap" gap="1" width="800px">
-        {sentenceData[count].sentence.split('').map((splitChar, i) => (
+        {sentenceData[count]?.sentence.split('').map((splitChar, i) => (
           <SentenceBox
             key={i}
             splitChar={splitChar}
@@ -146,13 +160,18 @@ const Typing = ({ sentenceData, userData }) => {
           </SentenceBox>
         ))}
       </Flex>
-      {count > 0 && (
-        <TypingButton clickFunc={handleBackClick}>back</TypingButton>
-      )}
-      <TypingButton clickFunc={handlePlayStart}>start</TypingButton>
-      {sentenceData.length - 1 > count && (
-        <TypingButton clickFunc={handleNextClick}>next</TypingButton>
-      )}
+      <VStack>
+        <Box>
+          {count > 0 && (
+            <TypingButton clickFunc={handleBackClick}>back</TypingButton>
+          )}
+          <TypingButton clickFunc={handlePlayStart}>start</TypingButton>
+          {sentenceData.length - 1 > count && (
+            <TypingButton clickFunc={handleNextClick}>next</TypingButton>
+          )}
+        </Box>
+        <TypingButton clickFunc={handleLogoutClick}>logout</TypingButton>
+      </VStack>
     </Box>
   );
 };
