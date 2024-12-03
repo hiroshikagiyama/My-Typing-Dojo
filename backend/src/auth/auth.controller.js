@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-const authModel = require('./auth.model');
 const passport = require('passport');
 
 module.exports = {
