@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, VStack } from '@chakra-ui/react';
+import { Box, Flex, VStack } from '@chakra-ui/react';
 import { TypingButton } from '../components/TypingButton.jsx';
 import { SentenceBox } from '../components/SentenceBox.jsx';
 import { LargeText } from '../components/LargeText.jsx';
