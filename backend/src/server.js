@@ -36,6 +36,7 @@ function setupServer() {
 
   app.get('/api/sentence/:tag', sentenceController.tag);
   app.get('/api/sentence', sentenceController.view);
+  app.post('/api/sentence', sentenceController.save);
 
   return app;
 }

@@ -4,6 +4,7 @@ import Typing from './pages/Typing.jsx';
 import Login from './pages/Login.jsx';
 import Notfound from './pages/Notfound.jsx';
 import ProtectedRoute from './auths/ProtectedRoute.jsx';
+import AddSentence from './pages/AddSentence.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/add_sentence" element={<AddSentence />} />
       <Route path="*" element={<Notfound />} />
     </Routes>
   );

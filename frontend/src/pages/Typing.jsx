@@ -105,7 +105,7 @@ const Typing = () => {
       userId: loginUser.userId,
       wpm: wpm,
     };
-    await fetch('api/record', {
+    await fetch('/api/record', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -133,6 +133,10 @@ const Typing = () => {
     if (response.ok) {
       navigate('/');
     }
+  };
+
+  const navigateAddSentence = () => {
+    navigate('/add_sentence');
   };
 
   return (
@@ -170,6 +174,9 @@ const Typing = () => {
             <TypingButton clickFunc={handleNextClick}>next</TypingButton>
           )}
         </Box>
+        <TypingButton clickFunc={navigateAddSentence}>
+          add sentence
+        </TypingButton>
         <TypingButton clickFunc={handleLogoutClick}>logout</TypingButton>
       </VStack>
     </Box>

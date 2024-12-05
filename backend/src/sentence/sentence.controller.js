@@ -13,4 +13,12 @@ module.exports = {
 
     res.send({ data: sentenceList });
   },
+
+  async save(req, res) {
+    const { sentence, tag, userId } = req.body;
+    console.log('🚀🚀🚀🚀 addSentence--->> ', { sentence, tag, userId });
+    const newSentenceList = await sentenceModel.save(sentence, tag, userId);
+
+    res.send({ data: newSentenceList });
+  },
 };
